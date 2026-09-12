@@ -1,0 +1,30 @@
+name: Robo de Sinais Futebol
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "0 10 * * *"
+
+jobs:
+  executar-robo:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Baixar codigo
+        uses: actions/checkout@v4
+
+      - name: Configurar Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Instalar dependencias
+        run: pip install requests
+
+      - name: Executar robo
+        env:
+          API_KEY: ${{ secrets.API_KEY }}
+          CORDAX_TOKEN: ${{ secrets.CORDAX_TOKEN }}
+          TELEGRAM_TOKEN: ${{ secrets.TELEGRAM_TOKEN }}
+          CHAT_ID_TELEGRAM: ${{ secrets.CHAT_ID_TELEGRAM }}
+        run: python robo.py
