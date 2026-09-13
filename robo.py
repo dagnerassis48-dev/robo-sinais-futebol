@@ -156,8 +156,7 @@ def analisar(jogo, historicos):
     ec = estatisticas(casa10)
     ef = estatisticas(fora10)
 
-    if ec["over15"] < 8 or ef["over15"] < 8:
-        return None
+
 
     score = (
         ec["over15"] * 10 + ef["over15"] * 10
