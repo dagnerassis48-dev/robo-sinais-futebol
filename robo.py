@@ -47,9 +47,9 @@ def api_futebol_do_dia(data):
     return jogos
 
 
-def cordax_jogos_do_dia():
+def cordax_jogos_do_dia(data):
     headers = {"Authorization": f"Bearer {CORDAX_TOKEN}"}
-    dados = get_json(CORDAX, headers=headers, params={"from": "today", "to": "today"})
+    dados = get_json(CORDAX, headers=headers, params={"from": data, "to": data})
     return dados if isinstance(dados, list) else dados.get("response", dados.get("data", []))
 
 
@@ -229,7 +229,7 @@ def main():
     print("📅 Data:", data)
 
     api_jogos = api_futebol_do_dia(data)
-    cordax_dia = cordax_jogos_do_dia()
+    cordax_dia = cordax_jogos_do_dia(data)
     pares_cordax = achar_cordax_por_par(cordax_dia)
 
     # O Cordax define o universo de competições com histórico disponível;
