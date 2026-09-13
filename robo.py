@@ -234,13 +234,15 @@ def main():
 
     # O Cordax define o universo de competições com histórico disponível;
     # o API-Football fornece a data/calendário do dia.
+    times_cordax = set()
+    for par in pares_cordax:
+        times_cordax.update(par)
+
     jogos = [
         j for j in api_jogos
-        if (normalizar(j["casa"]), normalizar(j["fora"])) in pares_cordax
+        if normalizar(j["casa"]) in times_cordax
+        and normalizar(j["fora"]) in times_cordax
     ]
-
-    print("🌍 Jogos no calendário API-Football:", len(api_jogos))
-    print("📚 Jogos cobertos pelo Cordax hoje:", len(jogos))
 
     nomes = sorted({x["casa"] for x in jogos} | {x["fora"] for x in jogos})
     historicos = {}
