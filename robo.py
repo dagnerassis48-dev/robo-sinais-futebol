@@ -31,6 +31,8 @@ def get_json(url, headers=None, params=None, timeout=60):
 def api_futebol_do_dia(data):
     headers = {"x-apisports-key": API_KEY}
     dados = get_json(API_FOOTBALL, headers=headers, params={"date": data})
+    print("🔍 API-Football resposta:", dados.get("errors", {}))
+    print("🔍 API-Football resultados:", dados.get("results", 0))
     jogos = []
     for j in dados.get("response", []):
         try:
