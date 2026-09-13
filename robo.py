@@ -228,9 +228,13 @@ def main():
     print("🤖 ROBÔ INICIADO")
     print("📅 Data:", data)
 
-    api_jogos = api_futebol_do_dia(data)
-    cordax_dia = cordax_jogos_do_dia(data)
-    pares_cordax = achar_cordax_por_par(cordax_dia)
+api_jogos = api_futebol_do_dia(data)
+cordax_dia = cordax_jogos_do_dia(data)
+pares_cordax = achar_cordax_por_par(cordax_dia)
+
+print("🔎 API-Football:", len(api_jogos))
+print("🔎 Cordax:", len(cordax_dia))
+print("🔎 Pares Cordax:", len(pares_cordax))
 
     # O Cordax define o universo de competições com histórico disponível;
     # o API-Football fornece a data/calendário do dia.
