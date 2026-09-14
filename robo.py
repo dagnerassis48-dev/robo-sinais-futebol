@@ -233,6 +233,8 @@ def main():
     api_jogos = api_futebol_do_dia(data)
     cordax_dia = cordax_jogos_do_dia(data)
     pares_cordax = achar_cordax_por_par(cordax_dia)
+    print("📅 DATA TESTADA:", data)
+    print("📊 JOGOS CORDAX:", len(cordax_dia))
 
     print("🔎 API-Football:", len(api_jogos))
     print("🔎 Cordax:", len(cordax_dia))
