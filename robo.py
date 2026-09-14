@@ -257,7 +257,7 @@ def main():
     cordax_dia = cordax_jogos_do_dia(data)
 
     if len(api_jogos) == 0:
-    api_jogos = sportsdb_jogos
+        api_jogos = sportsdb_jogos
 
     pares_cordax = achar_cordax_por_par(cordax_dia)
     print("🌍 TheSportsDB:", len(sportsdb_jogos))
