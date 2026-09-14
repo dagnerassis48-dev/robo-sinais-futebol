@@ -235,7 +235,8 @@ def main():
     pares_cordax = achar_cordax_por_par(cordax_dia)
     print("📅 DATA TESTADA:", data)
     print("📊 JOGOS CORDAX:", len(cordax_dia))
-
+    for j in cordax_dia:
+    print("⚽ CORDAX:", j.get("HomeTeam"), "x", j.get("AwayTeam"))
     print("🔎 API-Football:", len(api_jogos))
     print("🔎 Cordax:", len(cordax_dia))
     print("🔎 Pares Cordax:", len(pares_cordax))
