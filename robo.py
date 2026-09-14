@@ -51,7 +51,7 @@ def api_futebol_do_dia(data):
 
 def cordax_jogos_do_dia(data):
     headers = {"Authorization": f"Bearer {CORDAX_TOKEN}"}
-    dados = get_json(CORDAX, headers=headers, params={"from": data, "to": data})
+    dados = get_json(CORDAX, headers=headers, params={"from": data, "to": data, "status": "Scheduled"})
     return dados if isinstance(dados, list) else dados.get("response", dados.get("data", []))
 
 
