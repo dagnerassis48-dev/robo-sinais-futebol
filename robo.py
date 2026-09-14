@@ -261,6 +261,8 @@ def main():
 
     pares_cordax = achar_cordax_por_par(cordax_dia)
     print("🌍 TheSportsDB:", len(sportsdb_jogos))
+    for j in sportsdb_jogos:
+        print("🌍 SPORTSDB:", j.get("casa"), "x", j.get("fora"))
     print("📅 DATA TESTADA:", data)
     print("📊 JOGOS CORDAX:", len(cordax_dia))
     for j in cordax_dia:
