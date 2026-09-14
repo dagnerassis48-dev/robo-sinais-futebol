@@ -14,7 +14,7 @@ CHAT_ID_TELEGRAM = os.environ["CHAT_ID_TELEGRAM"]
 
 API_FOOTBALL = "https://v3.football.api-sports.io/fixtures"
 CORDAX = "https://api.cordax.net/Fixtures"
-
+THE_SPORTS_DB = "https://www.thesportsdb.com/api/v1/json/123/eventsday.php"
 
 def normalizar(nome):
     nome = unicodedata.normalize("NFKD", nome or "")
@@ -27,6 +27,28 @@ def get_json(url, headers=None, params=None, timeout=60):
     r.raise_for_status()
     return r.json()
 
+def thesportsdb_jogos_do_dia(data):
+    dados = get_json(
+        THE_SPORTS_DB,
+        params={"d": data, "s": "Soccer"}
+    )
+
+    jogos = []
+
+    for j in dados.get("events") or []:
+        casa = j.get("strHomeTeam")
+        fora = j.get("strAwayTeam")
+
+        if casa and fora:
+            jogos.append({
+                "data": data,
+                "casa": casa,
+                "fora": fora,
+                "liga": j.get("strLeague", ""),
+                "pais": j.get("strCountry", "")
+            })
+
+    return jogos
 
 def api_futebol_do_dia(data):
     headers = {"x-apisports-key": API_KEY}
@@ -231,8 +253,14 @@ def main():
     print("📅 Data:", data)
 
     api_jogos = api_futebol_do_dia(data)
+    sportsdb_jogos = thesportsdb_jogos_do_dia(data)
     cordax_dia = cordax_jogos_do_dia(data)
+
+    if len(api_jogos) == 0:
+    api_jogos = sportsdb_jogos
+
     pares_cordax = achar_cordax_por_par(cordax_dia)
+    print("🌍 TheSportsDB:", len(sportsdb_jogos))
     print("📅 DATA TESTADA:", data)
     print("📊 JOGOS CORDAX:", len(cordax_dia))
     for j in cordax_dia:
