@@ -101,14 +101,30 @@ def historico_time(nome_time):
 def ultimos_10_casa_fora(historico, nome_time):
     alvo = normalizar(nome_time)
     validos = []
+
     for jogo in historico:
         try:
-            casa = jogo["HomeTeam"]
-            fora = jogo["AwayTeam"]
-            mandante = normalizar(casa) == alvo
-            visitante = normalizar(fora) == alvo
+            casa = str(jogo.get("HomeTeam", ""))
+            fora = str(jogo.get("AwayTeam", ""))
+
+            casa_n = normalizar(casa)
+            fora_n = normalizar(fora)
+
+            mandante = (
+                casa_n == alvo
+                or alvo in casa_n
+                or casa_n in alvo
+            )
+
+            visitante = (
+                fora_n == alvo
+                or alvo in fora_n
+                or fora_n in alvo
+            )
+
             if not (mandante or visitante):
                 continue
+
             if jogo.get("HomeScore") is None or jogo.get("AwayScore") is None:
                 continue
 
@@ -120,14 +136,17 @@ def ultimos_10_casa_fora(historico, nome_time):
                 "data": data,
                 "gols_casa": int(jogo["HomeScore"]),
                 "gols_fora": int(jogo["AwayScore"]),
-                "local": "CASA" if mandante else "FORA",
+                "local": "CASA" if mandante else "FORA"
             })
+
         except Exception:
             continue
 
     validos.sort(key=lambda x: x["data"], reverse=True)
+
     casa = [x for x in validos if x["local"] == "CASA"][:10]
     fora = [x for x in validos if x["local"] == "FORA"][:10]
+
     return casa, fora
 
 
