@@ -310,26 +310,32 @@ def testar_competicoes_argentina():
     else:
         print("Resposta:", dados)
 def testar_historico_sportsdb():
-    url = "https://www.thesportsdb.com/api/v1/json/123/searchteams.php"
-    
+    url = "https://www.thesportsdb.com/api/v1/json/123/eventslast.php"
+
     dados = get_json(
         url,
-        params={"t": "Banfield"}
+        params={"id": "135154"}
     )
 
-    print("🇦🇷 TESTE BANFIELD - TheSportsDB")
+    print("🇦🇷 HISTÓRICO BANFIELD - TheSportsDB")
 
-    times = dados.get("teams") or []
+    jogos = dados.get("results") or []
 
-    print("Times encontrados:", len(times))
+    print("Jogos encontrados:", len(jogos))
 
-    for time in times:
+    for jogo in jogos[:15]:
         print(
-            "🏟️",
-            time.get("strTeam"),
-            "| ID:",
-            time.get("idTeam")
-        )
+            "⚽",
+            jogo.get("dateEvent"),
+            "|",
+            jogo.get("strHomeTeam"),
+            "x",
+            jogo.get("strAwayTeam"),
+            "|",
+            jogo.get("intHomeScore"),
+            "-",
+            jogo.get("intAwayScore")
+            )
 def main():
     agora = datetime.now(ZoneInfo("America/Sao_Paulo"))
     data = agora.strftime("%Y-%m-%d")
