@@ -300,6 +300,7 @@ def main():
     for i, nome in enumerate(nomes, 1):
         print(f"📥 Histórico {i}/{len(nomes)}: {nome}")
         historicos[nome] = historico_time(nome)
+        print("📚 Jogos históricos:", len(historicos[nome]))
         if i < len(nomes):
             # Premium Cordax: até 5 requisições/minuto.
             time.sleep(13)
