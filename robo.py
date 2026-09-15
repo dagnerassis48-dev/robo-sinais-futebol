@@ -96,9 +96,9 @@ def historico_time(nome_time):
     timeout=90,
 )
 
-print("🔎", nome_time, "->", len(dados) if isinstance(dados, list) else "RESPOSTA NÃO LISTA")
+    print("🔎", nome_time, "->", len(dados) if isinstance(dados, list) else "RESPOSTA NÃO LISTA")
 
-return dados if isinstance(dados, list) else dados.get("response", dados.get("data", []))
+    return dados if isinstance(dados, list) else dados.get("response", dados.get("data", []))
 
 
 def ultimos_10_casa_fora(historico, nome_time):
