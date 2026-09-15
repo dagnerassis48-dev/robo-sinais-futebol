@@ -281,13 +281,41 @@ def enviar_telegram(top):
     if not r.json().get("ok"):
         raise RuntimeError(f"Telegram retornou erro: {r.text}")
 
+def testar_competicoes_argentina():
+    headers = {
+        "Authorization": f"Bearer {CORDAX_TOKEN}"
+    }
 
+    dados = get_json(
+        "https://api.cordax.net/Competitions",
+        headers=headers,
+        params={"country": "Argentina"},
+        timeout=60
+    )
+
+    print("🇦🇷 COMPETIÇÕES CORDAX - ARGENTINA")
+
+    if isinstance(dados, list):
+        print("Quantidade:", len(dados))
+
+        for c in dados:
+            print(
+                "🏆",
+                c.get("Competition", c.get("Name", "")),
+                "|",
+                c.get("Division", ""),
+                "|",
+                c.get("Description", "")
+            )
+    else:
+        print("Resposta:", dados)
 def main():
     agora = datetime.now(ZoneInfo("America/Sao_Paulo"))
     data = agora.strftime("%Y-%m-%d")
 
     print("🤖 ROBÔ INICIADO")
     print("📅 Data:", data)
+    testar_competicoes_argentina()
 
     api_jogos = api_futebol_do_dia(data)
     sportsdb_jogos = thesportsdb_jogos_do_dia(data)
