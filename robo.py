@@ -95,6 +95,7 @@ def historico_time(nome_time):
         params={"team": nome_time, "status": "FT"},
         timeout=90,
     )
+    print("🔎 Cordax histórico", nome_time, ":", dados)
     return dados if isinstance(dados, list) else dados.get("response", dados.get("data", []))
 
 
