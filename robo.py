@@ -323,21 +323,38 @@ def main():
             # Premium Cordax: até 5 requisições/minuto.
             time.sleep(13)
 
-    resultados = []
+        resultados = []
+
     for jogo in jogos:
         try:
             r = analisar(jogo, historicos)
+
             if r:
                 resultados.append(r)
+
         except Exception as e:
-            print("⚠️ Erro:", jogo["casa"], "x", jogo["fora"], "-", e)
+            print(
+                f"⚠️ Erro: {jogo['casa']} x "
+                f"{jogo['fora']} - {e}"
+            )
 
-    resultados.sort(key=lambda x: x["score"], reverse=True)
-    top = resultados[:3]
+    # Somente jogos que cumprem a regra principal
+    aprovados = [
+        r for r in resultados
+        if r["aprovado"]
+    ]
 
-    print("✅ Aprovados:", len(resultados))
+    aprovados.sort(
+        key=lambda x: x["score"],
+        reverse=True
+    )
+
+    # Seleciona no máximo 3
+    top = aprovados[:3]
+
+    print("📊 Analisados com amostra suficiente:", len(resultados))
+    print("✅ Aprovados:", len(aprovados))
     print("🎯 Selecionados:", len(top))
-
     for i, r in enumerate(top, 1):
         print(
             f"{i}. {r['casa']} x {r['fora']} | "
