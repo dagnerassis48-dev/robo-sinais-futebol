@@ -309,13 +309,34 @@ def testar_competicoes_argentina():
             )
     else:
         print("Resposta:", dados)
+def testar_historico_sportsdb():
+    url = "https://www.thesportsdb.com/api/v1/json/123/searchteams.php"
+    
+    dados = get_json(
+        url,
+        params={"t": "Banfield"}
+    )
+
+    print("🇦🇷 TESTE BANFIELD - TheSportsDB")
+
+    times = dados.get("teams") or []
+
+    print("Times encontrados:", len(times))
+
+    for time in times:
+        print(
+            "🏟️",
+            time.get("strTeam"),
+            "| ID:",
+            time.get("idTeam")
+        )
 def main():
     agora = datetime.now(ZoneInfo("America/Sao_Paulo"))
     data = agora.strftime("%Y-%m-%d")
 
     print("🤖 ROBÔ INICIADO")
     print("📅 Data:", data)
-    testar_competicoes_argentina()
+    testar_historico_sportsdb()
 
     api_jogos = api_futebol_do_dia(data)
     sportsdb_jogos = thesportsdb_jogos_do_dia(data)
