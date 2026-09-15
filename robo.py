@@ -190,25 +190,37 @@ def estatisticas(lista):
         "media_total": (gm_total + gs_total) / total,
     }
 
-
 def analisar(jogo, historicos):
     casa, fora = jogo["casa"], jogo["fora"]
+
     hc = historicos[casa]
     hf = historicos[fora]
 
     casa10, _ = ultimos_10_casa_fora(hc, casa)
     _, fora10 = ultimos_10_casa_fora(hf, fora)
 
+    # Sem amostra suficiente, não pode ser sinal válido
+    if len(casa10) < 10 or len(fora10) < 10:
+        return None
+
     ec = estatisticas(casa10)
     ef = estatisticas(fora10)
 
-
+    # Regra principal: Over 1.5 em pelo menos 8 dos últimos 10
+    aprovado = (
+        ec["over15"] >= 8
+        and ef["over15"] >= 8
+    )
 
     score = (
-        ec["over15"] * 10 + ef["over15"] * 10
-        + ec["marcou"] * 4 + ef["marcou"] * 4
-        + ec["sofreu"] * 3 + ef["sofreu"] * 3
-        + ec["media_total"] * 5 + ef["media_total"] * 5
+        ec["over15"] * 10
+        + ef["over15"] * 10
+        + ec["marcou"] * 4
+        + ef["marcou"] * 4
+        + ec["sofreu"] * 3
+        + ef["sofreu"] * 3
+        + ec["media_total"] * 5
+        + ef["media_total"] * 5
     )
 
     return {
@@ -226,7 +238,10 @@ def analisar(jogo, historicos):
         "media_casa": ec["media_total"],
         "media_fora": ef["media_total"],
         "score": score,
+        "aprovado": aprovado,
     }
+
+
 
 
 def enviar_telegram(top):
