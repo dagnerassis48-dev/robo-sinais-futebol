@@ -90,13 +90,15 @@ def achar_cordax_por_par(cordax_jogos):
 def historico_time(nome_time):
     headers = {"Authorization": f"Bearer {CORDAX_TOKEN}"}
     dados = get_json(
-        CORDAX,
-        headers=headers,
-        params={"team": nome_time, "status": "FT"},
-        timeout=90,
-    )
-    print("🔎 Cordax histórico", nome_time, ":", dados)
-    return dados if isinstance(dados, list) else dados.get("response", dados.get("data", []))
+    CORDAX,
+    headers=headers,
+    params={"team": nome_time, "status": "FT"},
+    timeout=90,
+)
+
+print("🔎", nome_time, "->", len(dados) if isinstance(dados, list) else "RESPOSTA NÃO LISTA")
+
+return dados if isinstance(dados, list) else dados.get("response", dados.get("data", []))
 
 
 def ultimos_10_casa_fora(historico, nome_time):
